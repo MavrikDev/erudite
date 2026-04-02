@@ -95,7 +95,7 @@ export default function Sidebar({ onMotivate, onEditMotivation }) {
           Edit my info
         </button>
       )}
-      {!collapsed && <div className="sidebar__version">v0.9.8-beta</div>}
+      {!collapsed && <div className="sidebar__version">v1.0</div>}
     </aside>
   );
 }

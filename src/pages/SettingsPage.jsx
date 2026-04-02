@@ -201,9 +201,11 @@ export default function SettingsPage() {
       <div className="settings-section">
         <h2><Info size={20} /> About</h2>
         <div className="settings-about">
-          <p><strong>Erudite</strong> - A-Level Revision App</p>
-          <p>Subjects: Computer Science (AQA), Mathematics (AQA), Further Mathematics (AQA), Physics (OCR A)</p>
-          <p>Built with React</p>
+          <p><strong>Erudite</strong> is an all-in-one A-Level revision companion designed to help students study smarter, not harder. It brings together flashcards with spaced repetition, AI-powered practice questions, past paper analysis, a personalised revision timetable, and detailed progress tracking — all in one place.</p>
+          <p>Whether you're drilling key concepts, working through exam papers, or planning your study schedule, Erudite adapts to your subjects and keeps everything organised so you can focus on what matters most.</p>
+          <p>Currently supporting Computer Science (AQA), Mathematics (AQA), Further Mathematics (AQA), and Physics (OCR A).</p>
+          <p>Created by <strong>Dagmawi Terefe</strong>, a Year 12 student. Built with React.</p>
+          <p style={{ marginTop: '12px', fontSize: '0.82rem', color: 'var(--text-muted)', letterSpacing: '0.03em' }}>v1.0 · Est. 2026</p>
         </div>
       </div>
     </div>
