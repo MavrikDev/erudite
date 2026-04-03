@@ -92,31 +92,53 @@ for (const [id, p] of Object.entries(palettes)) {
   themes[`${id}-dark`] = { name: p.name, icon: p.icon, colors: darkVariant(p), mode: 'dark' };
 }
 
-// Apply theme by injecting/updating a <style> tag.
-// This forces a full CSS cascade recalculation (unlike inline style.setProperty
-// which can leave stale computed values in animations & color-mix).
+// Apply theme by injecting a <style> tag with high-specificity rules AND
+// setting inline CSS vars on <html>.  The style tag includes explicit
+// html/body background + color-scheme to override browser-level dark mode.
 function applyTheme(theme) {
+  if (!theme || !theme.colors) return;
   const root = document.documentElement;
   root.setAttribute('data-theme', theme.mode);
-  root.removeAttribute('style');
+
+  const entries = Object.entries(theme.colors);
+  const vars = entries.map(([k, v]) => `${k}:${v}`).join(';');
+
+  // 1. Style tag — vars on :root, plus explicit html/body backgrounds
+  //    color-scheme tells the browser not to apply its own dark mode
   let el = document.getElementById('erudite-theme');
   if (!el) {
     el = document.createElement('style');
     el.id = 'erudite-theme';
   }
-  el.textContent = ':root{' +
-    Object.entries(theme.colors).map(([k, v]) => `${k}:${v}`).join(';') +
-    '}';
-  // Always move to end of <head> so it wins over any other :root styles
+  el.textContent =
+    `:root{${vars};color-scheme:${theme.mode}}` +
+    `html,body{background:${theme.colors['--bg-primary']}!important;` +
+    `color:${theme.colors['--text-primary']}!important}`;
+  // Always move to end of <head> so it wins over any other stylesheets
   document.head.appendChild(el);
+
+  // 2. Inline vars on <html> — highest specificity backup
+  for (const [k, v] of entries) {
+    root.style.setProperty(k, v);
+  }
 }
 
-// Apply saved theme immediately at module load (before React renders)
-// to prevent flash of wrong colors
-try {
-  const _saved = localStorage.getItem('solorev-theme');
-  const _initial = themes[_saved] || themes['default'];
+// Force dark mode on every page load
+function forceDark(name) {
+  if (!name) return 'default-dark';
+  return name.endsWith('-dark') ? name : `${name}-dark`;
+}
+
+{
+  const _saved = forceDark(localStorage.getItem('solorev-theme'));
+  const _initial = themes[_saved] || themes['default-dark'];
+  localStorage.setItem('solorev-theme', _saved);
   applyTheme(_initial);
-} catch (e) { /* ignore in SSR / test environments */ }
+  // Re-apply after all stylesheets are injected (handles Vite CSS timing)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => applyTheme(_initial), { once: true });
+  }
+  window.addEventListener('load', () => applyTheme(themes[localStorage.getItem('solorev-theme')] || themes['default-dark']), { once: true });
+}
 
 export { themes, palettes, applyTheme };

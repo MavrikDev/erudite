@@ -1,10 +1,12 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { Home, BookOpen, FileText, CreditCard, Brain, BarChart3, AlertTriangle, Settings, ChevronLeft, ChevronRight, Calendar, Flame } from 'lucide-react';
+import { Home, BookOpen, FileText, CreditCard, Brain, BarChart3, AlertTriangle, Settings, ChevronLeft, ChevronRight, Calendar, Flame, Sun, Moon } from 'lucide-react';
 import { subjects } from '../data/subjects';
+import { useTheme } from '../contexts/ThemeContext';
 import { useState, useEffect } from 'react';
 
 export default function Sidebar({ onMotivate, onEditMotivation }) {
   const [collapsed, setCollapsed] = useState(() => localStorage.getItem('solorev-sidebar-collapsed') === 'true');
+  const { isDark, toggleMode } = useTheme();
   const location = useLocation();
 
   useEffect(() => {
@@ -95,7 +97,14 @@ export default function Sidebar({ onMotivate, onEditMotivation }) {
           Edit my info
         </button>
       )}
-      {!collapsed && <div className="sidebar__version">v1.0</div>}
+      {!collapsed && (
+        <div className="sidebar__footer">
+          <button className="sidebar__mode-toggle" onClick={toggleMode} title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}>
+            {isDark ? <Sun size={14} /> : <Moon size={14} />}
+          </button>
+          <span className="sidebar__version">v1.0</span>
+        </div>
+      )}
     </aside>
   );
 }

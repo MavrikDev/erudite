@@ -5,12 +5,19 @@ const ThemeContext = createContext();
 
 // Validate a theme name — fall back to 'default' if it doesn't exist
 function validThemeName(name) {
-  return themes[name] ? name : 'default';
+  return themes[name] ? name : 'default-dark';
+}
+
+// Always start in dark mode on page load (keeps the user's palette choice)
+function forceDark(name) {
+  if (!name) return 'default-dark';
+  return name.endsWith('-dark') ? name : `${name}-dark`;
 }
 
 export function ThemeProvider({ children }) {
   const [themeName, setThemeNameRaw] = useState(() => {
-    const saved = localStorage.getItem('solorev-theme') || 'default';
+    const saved = forceDark(localStorage.getItem('solorev-theme'));
+    localStorage.setItem('solorev-theme', saved);
     return validThemeName(saved);
   });
 
