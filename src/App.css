@@ -164,10 +164,7 @@ a:hover { color: var(--accent-hover); }
 }
 
 .sidebar__footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  position: relative;
   padding: 8px 16px 12px;
 }
 
@@ -175,10 +172,15 @@ a:hover { color: var(--accent-hover); }
   font-size: 0.7rem;
   color: var(--sidebar-text);
   opacity: 0.35;
+  text-align: center;
   letter-spacing: 0.03em;
 }
 
 .sidebar__mode-toggle {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;

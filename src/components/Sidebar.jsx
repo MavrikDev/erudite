@@ -102,7 +102,7 @@ export default function Sidebar({ onMotivate, onEditMotivation }) {
           <button className="sidebar__mode-toggle" onClick={toggleMode} title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}>
             {isDark ? <Sun size={14} /> : <Moon size={14} />}
           </button>
-          <span className="sidebar__version">v1.0</span>
+          <div className="sidebar__version">v1.0</div>
         </div>
       )}
     </aside>
