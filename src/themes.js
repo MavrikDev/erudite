@@ -11,9 +11,9 @@ const palettes = {
 
 function lightVariant(p) {
   return {
-    '--bg-primary': '#f0f2f5',
-    '--bg-secondary': '#ffffff',
-    '--bg-tertiary': '#e4e7ec',
+    '--bg-primary': '#ffffff',
+    '--bg-secondary': '#f8f9fa',
+    '--bg-tertiary': '#eef0f3',
     '--bg-hover': '#e8eaef',
     '--text-primary': '#1a1a2e',
     '--text-secondary': '#5a5a7a',
@@ -43,7 +43,7 @@ function lightVariant(p) {
     '--info-light': '#dbeafe',
     '--canvas-bg': '#ffffff',
     '--scrollbar-thumb': '#c1c1d0',
-    '--scrollbar-track': '#f0f2f5',
+    '--scrollbar-track': '#f5f5f5',
   };
 }
 
